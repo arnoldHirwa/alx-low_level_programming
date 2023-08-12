@@ -3,30 +3,37 @@
 #include <stdio.h>
 
 /**
- *main - function that returns the last digit
+ *main - print 3 combinations of numbers
  *
  * Return: Always (success)
  */
 int main(void)
 {
-	int n, lastdig;
+	int i, k, c;
 
-	srand(time(0));
-	n = rand() - RAND_MAX / 2;
-	lastdig = n % 10;
+	for (c = '0'; c <= '9'; c++)
+	{
+		for (i = '0'; i <= '9'; i++)
+		{
+			for (k = '0'; k <= '9'; k++)
+			{
+				if (c < i && i < k)
+				{
+					putchar(c);
+					putchar(i);
+					putchar(k);
 
-	if (lastdig > 5)
-	{
-		printf("Last digit of %d is %d and is greater than 5\n", n, lastdig);
+					if (c != '7')
+					{
+						putchar(',');
+						putchar(' ');
+					}
+				}
+			}
+		}
 	}
-	else if (lastdig == 0)
-	{
-		printf("Last digit of %d is %d and is 0\n", n, lastdig);
-	}
-	else if (lastdig < 6 && lastdig != 0)
-	{
-		printf("Last digit of %d is %d and is less than 6 and not 0\n", n, lastdig);
-	}
+
+	putchar('\n');
 
 	return (0);
 }

@@ -3,30 +3,42 @@
 #include <stdio.h>
 
 /**
- *main - function that returns the last digit
+ *main - combination of 2 letters in different ways
  *
  * Return: Always (success)
  */
 int main(void)
 {
-	int n, lastdig;
+	int k, c, j, i;
 
-	srand(time(0));
-	n = rand() - RAND_MAX / 2;
-	lastdig = n % 10;
+	for (c = 48; c <= 57; c++)
+	{
+		for (i = 48; i <= 57; i++)
+			for (k = 48; k <= 57; k++)
+				for (j = 48; j <= 57; j++)
+				{
+					if (((k + j) > (c + i) && k >= c) || c < k)
+					{
+						putchar(c);
+						putchar(i);
+						putchar(' ');
+						putchar(k);
+						putchar(j);
 
-	if (lastdig > 5)
-	{
-		printf("Last digit of %d is %d and is greater than 5\n", n, lastdig);
+						if (c + i + k + j == 227 && c == 57)
+						{
+							break;
+						}
+						else
+						{
+							putchar(',');
+							putchar(' ');
+						}
+					}
+				}
 	}
-	else if (lastdig == 0)
-	{
-		printf("Last digit of %d is %d and is 0\n", n, lastdig);
-	}
-	else if (lastdig < 6 && lastdig != 0)
-	{
-		printf("Last digit of %d is %d and is less than 6 and not 0\n", n, lastdig);
-	}
+
+	putchar('\n');
 
 	return (0);
 }
