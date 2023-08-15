@@ -1,4 +1,5 @@
 #include <stdlib.h>
+			i
 #include <time.h>
 #include <stdio.h>
 
@@ -9,19 +10,16 @@
  */
 int main(void)
 {
-	int c, i;
-
-	c = i = '0';
-
-	for (c = '0'; c <= '8'; c++)
+	for (int i = 0; i < 9; i++)
 	{
-		for (i = c + 1; i <= '9'; i++)
+		for (int j = i + 1; j < 10; j++)
 		{
-			putchar((c % 10) + '0');
-			putchar((i % 10) + '0');
+			putchar('0' + i);
+			putchar('0' + j);
 
-			if ((c == '8') && (c == '9'))
+			if (i == 8 && j == 9)
 				continue;
+
 			putchar(',');
 			putchar(' ');
 		}
