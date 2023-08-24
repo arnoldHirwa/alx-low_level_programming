@@ -1,28 +1,28 @@
 #include "main.h"
 
 /**
- * leet - encode a string into 1337
- * @s: string
- * Return: encoded string `s`
+ * leet - Convert a string to leet speak
+ * @s: string to convert
+ *
+ * Return: pointer to string
  */
-
 char *leet(char *s)
 {
-	int i;
+	int i, j;
+	char let[] = "aAeEoOtTlL";
+	char num[] = "4433007711";
 
-	for (i = 0; s[i] != '\0'; i++)
+	i = 0;
+	while (s[i] != 0)
 	{
-		while (s[i] == 'a' || s[i] == 'A')
-			s[i] = '4';
-		while (s[i] == 'e' || s[i] == 'E')
-			s[i] = '3';
-		while (s[i] == 'o' || s[i] == 'O')
-			s[i] = '0';
-		while (s[i] == 't' || s[i] == 'T')
-			s[i] = '7';
-		while (s[i] == 'l' || s[i] == 'L')
-			s[i] = '1';
+		j = 0;
+		while (let[j] != '\0')
+		{
+			if (s[i] == let[j])
+				s[i] = num[j];
+			j++;
+		}
+		i++;
 	}
-
 	return (s);
 }
