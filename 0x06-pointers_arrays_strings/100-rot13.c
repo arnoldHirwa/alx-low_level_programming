@@ -1,33 +1,27 @@
-#include "main.h"
-
 /**
- * rot13 - Encode string using rot13
- * @s: string to encode
+ * rot13 - encodes a string in rot13
  *
- * Return: Pointer to string
+ * @a: string to encode
+ *
+ * Return: encoded string
  */
-char *rot13(char *s)
+char *rot13(char *a)
 {
-	int i;
+	char *sptr = a;
+	int index;
+	char trans[2][54] = {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+				   "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"};
 
-	i = 0;
-	while (s[i] != 0)
+	while (*sptr != 0)
 	{
-		if ((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z'))
+		if ((*sptr >= 'a' && *sptr <= 'z') || (*sptr >= 'A' && *sptr <= 'Z'))
 		{
-			while ((s[i] >= 'A' && s[i] < 'N') || (s[i] >= 'a' && s[i] < 'n'))
-			{
-				s[i] += 13;
-				i++;
-			}
-			while ((s[i] >= 'N' && s[i] <= 'Z') || (s[i] >= 'n' && s[i] <= 'z'))
-			{
-				s[i] -= 13;
-				i++;
-			}
+			index = 0;
+			while (*sptr != trans[0][index])
+				index++;
+			*sptr = trans[1][index];
 		}
-		else
-			i++;
+		sptr++;
 	}
-	return (s);
+	return (a);
 }
