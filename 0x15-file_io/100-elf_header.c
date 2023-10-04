@@ -1,22 +1,29 @@
-
-#include <elf.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <elf.h>
 
-void print_osabi(unsigned char *e_ident);
-void print_type(unsigned int e_type, unsigned char *e_ident);
-void print_entry(unsigned long int e_entry, unsigned char *e_ident);
-void close_elf(int elf);
-void check_elf(unsigned char *e_ident);
-void print_magic(unsigned char *e_ident);
-void print_class(unsigned char *e_ident);
-void print_data(unsigned char *e_ident);
-void print_version(unsigned char *e_ident);
-void print_abi(unsigned char *e_ident);
+/**
+* print_magic - Prints the ELF magic bytes.
+* @ident: The ELF identification bytes.
+*
+* Description: This function prints the magic bytes from the ELF header.
+*/
+void print_magic(unsigned char *ident)
+{
+	int index;
+
+	printf("  Magic:   ");
+	for (index = 0; index < EI_NIDENT; index++)
+	{
+		printf("%02x", ident[index]);
+		if (index == EI_NIDENT - 1)
+			continue;
+		printf(" ");
+	}
+	putchar('\n');
+}
 
 /**
  * check_elf - Checks if a file is an ELF file.
@@ -42,50 +49,27 @@ void check_elf(unsigned char *e_ident)
 }
 
 /**
- * print_magic - Prints the magic numbers of an ELF header.
- * @e_ident: A pointer to an array containing the ELF magic numbers.
- *
- * Description: Magic numbers are separated by spaces.
- */
-void print_magic(unsigned char *e_ident)
-{
-	int index;
-
-	printf("  Magic:   ");
-
-	for (index = 0; index < EI_NIDENT; index++)
-	{
-		printf("%02x", e_ident[index]);
-
-		if (index == EI_NIDENT - 1)
-			printf("\n");
-		else
-			printf(" ");
-	}
-}
-
-/**
- * print_class - Prints the class of an ELF header.
- * @e_ident: A pointer to an array containing the ELF class.
- */
-void print_class(unsigned char *e_ident)
+* print_class - Prints the ELF file class.
+* @ident: The ELF identification bytes.
+*
+* Description: This function prints the ELF file class (32-bit or 64-bit).
+*/
+void print_class(unsigned char *ident)
 {
 	printf("  Class:                             ");
-
-	switch (e_ident[EI_CLASS])
+	if (ident[EI_CLASS] == ELFCLASS32)
 	{
-	case ELFCLASSNONE:
-		printf("none\n");
-		break;
-	case ELFCLASS32:
-		printf("ELF32\n");
-		break;
-	case ELFCLASS64:
-		printf("ELF64\n");
-		break;
-	default:
-		printf("<unknown: %x>\n", e_ident[EI_CLASS]);
+		printf("ELF32");
 	}
+	else if (ident[EI_CLASS] == ELFCLASS64)
+	{
+		printf("ELF64");
+	}
+	else
+	{
+		printf("Unknown");
+	}
+	printf("\n");
 }
 
 /**
