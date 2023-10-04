@@ -96,18 +96,21 @@ void print_class(unsigned char *e_ident)
 */
 void print_data(unsigned char *ident)
 {
-	printf("  Data:                              2's complement, ");
+	printf("  Data:                              ");
 	if (ident[EI_DATA] == ELFDATA2LSB)
 	{
-		printf("little endian\n");
+		printf("2's complement, little endian\n");
 	}
 	else if (ident[EI_DATA] == ELFDATA2MSB)
 	{
-		printf("big endian\n");
+		printf("2's complement, big endian\n");
 	}
-	else
+	else if (ident[EI_DATA] == ELFDATANONE)
 	{
-		printf("Unknown\n");
+		printf("none\n");
+	} else
+	{
+		printf("<unknown: %x>\n", ident[EI_CLASS]);
 	}
 }
 
