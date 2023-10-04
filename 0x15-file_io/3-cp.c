@@ -1,6 +1,23 @@
 #include "main.h"
 
 /**
+ * close_file - Closes file descriptors.
+ * @fd: The file descriptor to be closed.
+ */
+void close_file(int fd)
+{
+	int c;
+
+	c = close(fd);
+
+	if (c == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
+
+/**
  * _copy - Copies the content of one file to another.
  * @file_from: The name of the source file.
  * @file_to: The name of the destination file.
@@ -10,7 +27,7 @@
  */
 void _copy(char *file_from, char *file_to)
 {
-	ssize_t bytes_written = 0, bytes_to_write, o_to, o_from, rb, w, c_to, c_from;
+	ssize_t bytes_written = 0, bytes_to_write, o_to, o_from, rb, w;
 	char buffer[1024];
 
 	o_from = open(file_from, O_RDONLY);
@@ -43,13 +60,8 @@ void _copy(char *file_from, char *file_to)
 		}
 		bytes_written += w;
 	}
-	c_from = close(o_from);
-	c_to = close(o_to);
-	if (c_from == -1 || c_to == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd -1\n");
-		exit(100);
-	}
+	close_file(o_from);
+	close_file(o_to);
 }
 
 /**
