@@ -26,6 +26,29 @@ void print_magic(unsigned char *ident)
 }
 
 /**
+ * check_elf - Checks if a file is an ELF file.
+ * @e_ident: A pointer to an array containing the ELF magic numbers.
+ *
+ * Description: If the file is not an ELF file - exit code 98.
+ */
+void check_elf(unsigned char *e_ident)
+{
+	int index;
+
+	for (index = 0; index < 4; index++)
+	{
+		if (e_ident[index] != 127 &&
+		    e_ident[index] != 'E' &&
+		    e_ident[index] != 'L' &&
+		    e_ident[index] != 'F')
+		{
+			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
+			exit(98);
+		}
+	}
+}
+
+/**
 * print_class - Prints the ELF file class.
 * @ident: The ELF identification bytes.
 *
@@ -244,7 +267,7 @@ int main(int argc, char *argv[])
 		dprintf(2, "Error: Can't read %s file\n", argv[1]);
 		exit(98);
 	}
-
+	check_elf(elf_header.e_ident);
 	printf("ELF Header:\n");
 	print_magic(elf_header.e_ident);
 	print_class(elf_header.e_ident);
