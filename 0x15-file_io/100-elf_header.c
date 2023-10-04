@@ -89,47 +89,41 @@ void print_class(unsigned char *e_ident)
 }
 
 /**
- * print_data - Prints the data of an ELF header.
- * @e_ident: A pointer to an array containing the ELF class.
- */
-void print_data(unsigned char *e_ident)
+* print_data - Prints the data encoding (endianess) of the ELF file.
+* @ident: The ELF identification bytes.
+*
+* Description: This function prints the data encoding of the ELF file.
+*/
+void print_data(unsigned char *ident)
 {
-	printf("  Data:                              ");
-
-	switch (e_ident[EI_DATA])
+	printf("  Data:                              2's complement, ");
+	if (ident[EI_DATA] == ELFDATA2LSB)
 	{
-	case ELFDATANONE:
-		printf("none\n");
-		break;
-	case ELFDATA2LSB:
-		printf("2's complement, little endian\n");
-		break;
-	case ELFDATA2MSB:
-		printf("2's complement, big endian\n");
-		break;
-	default:
-		printf("<unknown: %x>\n", e_ident[EI_CLASS]);
+		printf("little endian\n");
+	}
+	else if (ident[EI_DATA] == ELFDATA2MSB)
+	{
+		printf("big endian\n");
+	}
+	else
+	{
+		printf("Unknown\n");
 	}
 }
 
 /**
- * print_version - Prints the version of an ELF header.
- * @e_ident: A pointer to an array containing the ELF version.
- */
-void print_version(unsigned char *e_ident)
+* print_version - Prints the ELF file version.
+* @ident: The ELF identification bytes.
+*
+* Description: This function prints the ELF file version.
+*/
+void print_version(unsigned char *ident)
 {
-	printf("  Version:                           %d",
-	       e_ident[EI_VERSION]);
-
-	switch (e_ident[EI_VERSION])
-	{
-	case EV_CURRENT:
-		printf(" (current)\n");
-		break;
-	default:
-		printf("\n");
-		break;
-	}
+	printf("  Version:                           ");
+	if (ident[EI_VERSION] == 1)
+		printf("1 (current)\n");
+	else
+		printf("Unknown\n");
 }
 
 /**
