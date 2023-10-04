@@ -16,13 +16,13 @@ void _copy(char *file_from, char *file_to)
 	o_from = open(file_from, O_RDONLY);
 	if (o_from == -1)
 	{
-		dprintf(2, "Error: Can't read from %s\n", file_from);
+		dprintf(STDERR_FILENO, "Error: Can't read from %s\n", file_from);
 		exit(98);
 	}
 	o_to = open(file_to, O_CREAT | O_RDWR | O_TRUNC, 0664);
 	if (o_to == -1)
 	{
-		dprintf(2, "Error: Can't open %s\n", file_to);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
 		exit(99);
 	}
 	while ((rb = read(o_from, buffer, sizeof(buffer))) > 0)
@@ -38,7 +38,7 @@ void _copy(char *file_from, char *file_to)
 		}
 		if (w == -1)
 		{
-			dprintf(2, "Error: Can't write to %s\n", file_to);
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
 			exit(99);
 		}
 		bytes_written += w;
@@ -47,7 +47,7 @@ void _copy(char *file_from, char *file_to)
 	c_to = close(o_to);
 	if (c_from == -1 || c_to == -1)
 	{
-		dprintf(2, "Error: Can't close fd -1\n");
+		dprintf(STDERR_FILENO, "Error: Can't close fd -1\n");
 		exit(100);
 	}
 }
@@ -67,7 +67,7 @@ int main(int argc, char **av)
 {
 	if (argc != 3)
 	{
-		dprintf(2, "Usage: cp file_from file_to\n");
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
 	_copy(av[1], av[2]);
