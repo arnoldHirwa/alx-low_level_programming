@@ -133,14 +133,16 @@ void print_version(unsigned char *e_ident)
 }
 
 /**
- * print_osabi - Prints the OS/ABI of an ELF header.
- * @e_ident: A pointer to an array containing the ELF version.
- */
-void print_osabi(unsigned char *e_ident)
+* print_osabi - Prints the OS/ABI of the ELF file.
+* @eident: The ELF identification bytes.
+*
+* Description: This function prints the OS/ABI of the ELF file.
+*/
+void print_osabi(unsigned char *eident)
 {
 	printf("  OS/ABI:                            ");
 
-	switch (e_ident[EI_OSABI])
+	switch (eident[EI_OSABI])
 	{
 	case ELFOSABI_NONE:
 		printf("UNIX - System V\n");
@@ -173,18 +175,21 @@ void print_osabi(unsigned char *e_ident)
 		printf("Standalone App\n");
 		break;
 	default:
-		printf("<unknown: %x>\n", e_ident[EI_OSABI]);
+		printf("<unknown: %x>\n", eident[EI_OSABI]);
 	}
 }
 
 /**
- * print_abi - Prints the ABI version of an ELF header.
- * @e_ident: A pointer to an array containing the ELF ABI version.
- */
-void print_abi(unsigned char *e_ident)
+* print_abi - Prints the ABI version of the ELF file.
+* @ident: The ELF identification bytes.
+*
+* Description: This function prints the ABI version of the ELF file.
+*/
+
+void print_abi(unsigned char *ident)
 {
 	printf("  ABI Version:                       %d\n",
-	       e_ident[EI_ABIVERSION]);
+		ident[EI_ABIVERSION]);
 }
 
 /**
