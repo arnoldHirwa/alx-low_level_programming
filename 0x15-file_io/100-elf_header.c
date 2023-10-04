@@ -89,26 +89,28 @@ void print_class(unsigned char *e_ident)
 }
 
 /**
- * print_data - Prints the data of an ELF header.
- * @e_ident: A pointer to an array containing the ELF class.
- */
-void print_data(unsigned char *e_ident)
+* print_data - Prints the data encoding (endianess) of the ELF file.
+* @ident: The ELF identification bytes.
+*
+* Description: This function prints the data encoding of the ELF file.
+*/
+void print_data(unsigned char *ident)
 {
 	printf("  Data:                              ");
-
-	switch (e_ident[EI_DATA])
+	if (ident[EI_DATA] == ELFDATA2LSB)
 	{
-	case ELFDATANONE:
-		printf("none\n");
-		break;
-	case ELFDATA2LSB:
 		printf("2's complement, little endian\n");
-		break;
-	case ELFDATA2MSB:
+	}
+	else if (ident[EI_DATA] == ELFDATA2MSB)
+	{
 		printf("2's complement, big endian\n");
-		break;
-	default:
-		printf("<unknown: %x>\n", e_ident[EI_CLASS]);
+	}
+	else if (ident[EI_DATA] == ELFDATANONE)
+	{
+		printf("none\n");
+	} else
+	{
+		printf("<unknown: %x>\n", ident[EI_CLASS]);
 	}
 }
 
